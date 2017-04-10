@@ -9,9 +9,8 @@ instance_groups:
 - name: git-server
   instances: 1
   networks:
-  - name: topgun
-    static_ips: [10.234.1.5]
-  vm_type: topgun
+  - name: default
+  vm_type: default
   stemcell: trusty
   jobs:
   - release: git-server
