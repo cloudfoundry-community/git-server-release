@@ -32,8 +32,8 @@ case $1 in
     for repo in "${repositories[@]}"
     do
       mkdir -p "${DATA_DIR}/${repo}"
-      chown -R vcap:vcap "${DATA_DIR}/${repo}"
       git init --bare "${DATA_DIR}/${repo}"
+      chown -R vcap:vcap "${DATA_DIR}/${repo}"
     done
 
     exec chpst -u vcap:vcap git daemon \
