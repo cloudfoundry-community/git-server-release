@@ -1,0 +1,20 @@
+name: git-server
+version: "2"
+commit_hash: 0cce0b7
+uncommitted_changes: false
+jobs:
+- name: git-server
+  version: b5ff658522dd0b2f3294cb3097e1d997e60ce5cb
+  fingerprint: b5ff658522dd0b2f3294cb3097e1d997e60ce5cb
+  sha1: ba23ebe92709a42874efa85bfd24cc6212c26ebe
+packages:
+- name: git
+  version: f50dee4009a76437e54716365e7d3f0344669127
+  fingerprint: f50dee4009a76437e54716365e7d3f0344669127
+  sha1: 47d5a690f7f12b7aab1f221688a296dacdb9a870
+  dependencies: []
+- name: pid_utils
+  version: a1f0590ea02d938b933a101c7438985721cd0ab4
+  fingerprint: a1f0590ea02d938b933a101c7438985721cd0ab4
+  sha1: 96070a131172d1f164c8bc745bcd13b599e88c98
+  dependencies: []
