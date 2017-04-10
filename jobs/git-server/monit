@@ -1,0 +1,5 @@
+check process git_server
+  with pidfile /var/vcap/sys/run/git-server/git_server.pid
+  start program "/var/vcap/jobs/git-server/bin/git_server_ctl start"
+  stop program "/var/vcap/jobs/git-server/bin/git_server_ctl stop"
+  group vcap

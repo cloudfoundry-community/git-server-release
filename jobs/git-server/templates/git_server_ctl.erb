@@ -1,0 +1,60 @@
+#!/bin/bash
+
+set -e
+
+RUN_DIR=/var/vcap/sys/run/git-server
+LOG_DIR=/var/vcap/sys/log/git-server
+PIDFILE=$RUN_DIR/git_server.pid
+DATA_DIR=/var/vcap/data/git-server
+
+source /var/vcap/packages/pid_utils/pid_utils.sh
+
+export PATH=/var/vcap/packages/git/bin/:$PATH
+
+case $1 in
+
+  start)
+    pid_guard $PIDFILE "git_server"
+
+    mkdir -p $RUN_DIR
+    chown -R vcap:vcap $RUN_DIR
+
+    mkdir -p $LOG_DIR
+    chown -R vcap:vcap $LOG_DIR
+
+    mkdir -p $DATA_DIR
+    chown -R vcap:vcap $DATA_DIR
+
+    echo $$ > $PIDFILE
+
+    repositories=(<%= p("repositories").join(" ") %>)
+
+    for repo in "${repositories[@]}"
+    do
+      mkdir -p "${DATA_DIR}/${repo}"
+      chown -R vcap:vcap "${DATA_DIR}/${repo}"
+      git init --bare "${DATA_DIR}/${repo}"
+    done
+
+    exec chpst -u vcap:vcap git daemon \
+      --export-all \
+      --enable=receive-pack \
+      --reuseaddr \
+      --base-path=$DATA_DIR \
+      $DATA_DIR \
+      1>>$LOG_DIR/git-server.stdout.log \
+      2>>$LOG_DIR/git-server.stderr.log
+
+    ;;
+
+  stop)
+    kill_and_wait $PIDFILE
+
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+
+    ;;
+
+esac

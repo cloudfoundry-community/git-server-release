@@ -1,0 +1,15 @@
+---
+name: git-server
+
+templates:
+  git_server_ctl.erb: bin/git_server_ctl
+
+packages:
+- pid_utils
+- git
+
+properties:
+  repositories:
+    description: |
+      List of repositories to create on server.
+    default: []
