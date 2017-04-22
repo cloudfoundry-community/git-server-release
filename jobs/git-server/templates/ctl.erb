@@ -1,0 +1,58 @@
+#!/bin/bash
+
+set -e
+
+RUN_DIR=/var/vcap/sys/run/git-server
+PIDFILE=$RUN_DIR/git_server.pid
+LOG_DIR=/var/vcap/sys/log/git-server
+STORE_DIR=/var/vcap/store/git-server
+
+export PATH=/var/vcap/packages/git/bin/:$PATH
+
+mkdir -p $RUN_DIR $LOG_DIR $STORE_DIR
+chown -R vcap:vcap $RUN_DIR $LOG_DIR $STORE_DIR
+
+exec 1>>$LOG_DIR/git-server.stdout.log 2>>$LOG_DIR/git-server.stderr.log
+
+case $1 in
+
+  start)
+    repositories=(<%= p("repositories").join(" ") %>)
+
+    for repo in "${repositories[@]}"
+    do
+      mkdir -p "${STORE_DIR}/${repo}"
+      git init --bare "${STORE_DIR}/${repo}"
+      chown -R vcap:vcap "${STORE_DIR}/${repo}"
+    done
+
+    echo $$ > $PIDFILE
+
+    exec chpst -u vcap:vcap git daemon \
+      --export-all \
+      --enable=receive-pack \
+      --reuseaddr \
+      --listen=<%= p("listen_addr") %> \
+      --port=<%= p("port") %> \
+      --base-path=$STORE_DIR \
+      $STORE_DIR
+
+    ;;
+
+  stop)
+    if [ -f $PIDFILE ]; then
+      pid=`cat $PIDFILE`
+      kill -15 $pid || true
+      sleep 1
+      kill -9 $pid || true
+      rm -f $PIDFILE
+    fi
+
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+
+    ;;
+
+esac

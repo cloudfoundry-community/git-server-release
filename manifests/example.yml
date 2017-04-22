@@ -7,20 +7,21 @@ releases:
 
 instance_groups:
 - name: git-server
+  azs: [z1]
   instances: 1
-  networks:
-  - name: default
-  vm_type: default
-  stemcell: trusty
   jobs:
   - release: git-server
     name: git-server
     properties:
-      repositories:
-      - some-repo
+      repositories: ((repos))
+  vm_type: default
+  stemcell: default
+  persistent_disk: 10_000
+  networks:
+  - name: default
 
 stemcells:
-- alias: trusty
+- alias: default
   os: ubuntu-trusty
   version: latest
 
@@ -28,5 +29,5 @@ update:
   canaries: 1
   max_in_flight: 3
   serial: false
-  canary_watch_time: 1000-300000
-  update_watch_time: 1000-300000
+  canary_watch_time: 1000-30000
+  update_watch_time: 1000-30000

@@ -2,14 +2,21 @@
 name: git-server
 
 templates:
-  git_server_ctl.erb: bin/git_server_ctl
+  ctl.erb: bin/ctl
 
 packages:
-- pid_utils
 - git
 
 properties:
+  listen_addr:
+    description: Address to listen on.
+    default: 0.0.0.0
+  port:
+    description: Port to listen on.
+    default: 9418
+
   repositories:
-    description: |
-      List of repositories to create on server.
+    description: List of repository names to create on server.
     default: []
+    example:
+    - my-fav-repo

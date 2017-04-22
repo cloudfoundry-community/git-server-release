@@ -1,0 +1,7 @@
+- type: replace
+  path: /releases/name=git-server/version
+  value: create
+
+- type: replace
+  path: /releases/name=git-server/url
+  value: file://.

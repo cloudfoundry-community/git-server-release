@@ -5,5 +5,5 @@ set -e -x
 tar -xzvf git/git-2.10.0.tar.gz
 cd git-2.10.0
 ./configure --prefix=${BOSH_INSTALL_TARGET}
-make -j all
+make all
 make install
