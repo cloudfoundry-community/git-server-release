@@ -1,0 +1,19 @@
+name: git-server
+version: "3"
+commit_hash: "4409739"
+uncommitted_changes: false
+jobs:
+- name: git-server
+  version: dadd69e477c3e946be92f869a371be58504aadee
+  fingerprint: dadd69e477c3e946be92f869a371be58504aadee
+  sha1: 944e24b2d14dc6c7e537bd5d312fd5592932d561
+packages:
+- name: git
+  version: 763cb42c16b8e1cb575f5be70e3d98ecbf73ebc7
+  fingerprint: 763cb42c16b8e1cb575f5be70e3d98ecbf73ebc7
+  sha1: 224b2e556a97d82faf2d0482d9fba0c2e900b2d6
+  dependencies: []
+license:
+  version: f84e36e9ef243d2f90441c1d1e9767ccd18308f0
+  fingerprint: f84e36e9ef243d2f90441c1d1e9767ccd18308f0
+  sha1: e631e7ef16153e3a777813cc734e88cf13f00e2a
