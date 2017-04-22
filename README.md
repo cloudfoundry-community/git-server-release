@@ -14,7 +14,7 @@ Once you have deployed the Git server, you can use it as a remote (e.g. `origin`
 
 ```
 $ cd some-repo
-$ git remote add origin git://<git-server-ip>/some-repo
+$ git remote add origin git://`bosh -d git-server is --column ips|cut -f1`/some-repo
 $ git push --set-upstream origin master
 ```
 
